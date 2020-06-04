@@ -1,5 +1,5 @@
 # Palace Cop Bot
-I forked this from eric-levinson and tweeked it for a UK version
+I forked this from eric-levinson and tweeked it for a UK version and wrote this readme :)
 
 1. Change your details in the user.js
 
