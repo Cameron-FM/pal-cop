@@ -11,5 +11,5 @@ npm install
 ```
 
 ```
-node 
+node palscript.js
 ```
