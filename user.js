@@ -1,11 +1,11 @@
 module.exports = {
 
-    email: `email`,
-    firstName: `fn`,
-    lastName: `ln`,
-    address: `street`,
-    city: `city`,
-    state: `Florida`,
-    zip: `xxxxxx`,
-    phone: `xxx-xxx-xxxx`
+    email: ``,
+    firstName: ``,
+    lastName: ``,
+    address: ``,
+    city: ``,
+    state: ``,
+    zip: ``,
+    phone: ``
 };

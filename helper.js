@@ -7,9 +7,9 @@ const puppeteer = require('puppeteer');
 
 // append the item's category to the base url and add it as a property
 // used in map()
-let addUrlToItem = function(item) {
+let addUrlToItem = function (item) {
 
-	const baseURL = "https://shop-usa.palaceskateboards.com/collections";
+	const baseURL = "https://shop.palaceskateboards.com/collections";
 
 	item.url = `${baseURL}/${item.category}`;
 
@@ -18,26 +18,26 @@ let addUrlToItem = function(item) {
 
 
 // checks if category passed in matches a valid category
-let isValidCategory = function(userCategory) {
+let isValidCategory = function (userCategory) {
 
-	if(typeof userCategory !== "string") // the category must be a string to be valid
+	if (typeof userCategory !== "string") // the category must be a string to be valid
 		return false;
 
 	const validCategories = ["jackets", "shirting", "trousers", "tracksuits",
-							"sweatshirts", "tops", "t-shirts", "hats",
-							"footwear", "accessories", "hardware"];
+		"sweatshirts", "tops", "t-shirts", "hats",
+		"footwear", "accessories", "hardware"];
 
 	// check if category the user entered is inside the valid list
 	return validCategories.includes(userCategory);
 };
 
 
-let validateItems = function(rawItems) {
+let validateItems = function (rawItems) {
 
 	rawItems.forEach(rawItem => {
 
 		// validate the category name (it's a string and matches a valid category)
-		if(!isValidCategory(rawItem.category)) {
+		if (!isValidCategory(rawItem.category)) {
 
 			console.log("this item's category is malformed:\n");
 			console.log(rawItem);

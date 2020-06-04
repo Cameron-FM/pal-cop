@@ -8,9 +8,10 @@ const user = require('./user.js');
 console.log(user);
 
 const chromeOptions = {
-  headless:false,
-  slowMo:10,
-  defaultViewport: null};
+  headless: false,
+  slowMo: 10,
+  defaultViewport: null
+};
 
 (async () => {
 
@@ -19,38 +20,38 @@ const chromeOptions = {
   const navigationPromise = page.waitForNavigation()
 
   const items = get_items();
-    for (const item of items) {
+  for (const item of items) {
 
-        await page.goto(item.url)
+    await page.goto(item.url)
 
-        await page.setViewport({ width: 1440, height: 747 })
+    await page.setViewport({ width: 1440, height: 747 })
 
-        await scrollToBottom(page)
-        await page.waitFor(500);
-        await scrollToBottom(page)
-        await page.waitFor(500);
-        await scrollToBottom(page)
-        await page.waitFor(500);
-        const [h3] = await page.$x("//h3[contains(.,\'" + item.keyPhrase + "\')]");
-        if (h3) {
-          await h3.click();
-        }
+    await scrollToBottom(page)
+    await page.waitFor(500);
+    await scrollToBottom(page)
+    await page.waitFor(500);
+    await scrollToBottom(page)
+    await page.waitFor(500);
+    const [h3] = await page.$x("//h3[contains(.,\'" + item.keyPhrase + "\')]");
+    if (h3) {
+      await h3.click();
+    }
 
-        if(item.size !== "") {
-          // dropdown with each size
-          await page.waitFor(700);
+    if (item.size !== "") {
+      // dropdown with each size
+      await page.waitFor(700);
 
-          await page.type("select#product-select", item.size)
-        }
+      await page.type("select#product-select", item.size)
+    }
 
-        await page.click('.add')
-        await page.waitFor(700);
-        await page.waitForSelector('.cart-heading')
-        await page.click('.cart-heading')
+    await page.click('.add')
+    await page.waitFor(700);
+    await page.waitForSelector('.cart-heading')
+    await page.click('.cart-heading')
   }
 
   //cart to checkout
-  await page.goto('https://shop-usa.palaceskateboards.com/cart')
+  await page.goto('https://shop.palaceskateboards.com/cart')
 
   await page.waitForSelector('#cartform > #basket-right > .checkbox-wrapper > label > .checkbox-control')
   await page.click('#cartform > #basket-right > .checkbox-wrapper > label > .checkbox-control')
@@ -70,7 +71,7 @@ const chromeOptions = {
   console.log('before const')
   const currentURL = page.url();
   console.log('page url caught')
-  const requestId = await initiateCaptchaRequest(apiKey,currentURL);
+  const requestId = await initiateCaptchaRequest(apiKey, currentURL);
   console.log('after const')
 
 
@@ -79,55 +80,55 @@ const chromeOptions = {
   console.log('load')
   await page.waitForSelector('#checkout_email')
   console.log('waited for #checkout_email')
-	element = await page.$x(`//*[@id="checkout_email"]`);
-	await element[0].click();
+  element = await page.$x(`//*[@id="checkout_email"]`);
+  await element[0].click();
   console.log('clicked email')
 
 
-	element = await page.$x(`//*[@id="checkout_email"]`);
-	await element[0].type(user.email);
+  element = await page.$x(`//*[@id="checkout_email"]`);
+  await element[0].type(user.email);
 
 
   console.log('typed email')
 
-	element = await page.$x(`(.//*[normalize-space(text()) and normalize-space(.)='Email'])[1]/following::label[1]`);
-	await element[0].click();
+  element = await page.$x(`(.//*[normalize-space(text()) and normalize-space(.)='Email'])[1]/following::label[1]`);
+  await element[0].click();
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_first_name"]`);
-	await element[0].click();
+  element = await page.$x(`//*[@id="checkout_shipping_address_first_name"]`);
+  await element[0].click();
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_first_name"]`);
-	await element[0].type(user.firstName);
+  element = await page.$x(`//*[@id="checkout_shipping_address_first_name"]`);
+  await element[0].type(user.firstName);
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_last_name"]`);
-	await element[0].click();
+  element = await page.$x(`//*[@id="checkout_shipping_address_last_name"]`);
+  await element[0].click();
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_last_name"]`);
-	await element[0].type(user.lastName);
+  element = await page.$x(`//*[@id="checkout_shipping_address_last_name"]`);
+  await element[0].type(user.lastName);
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_address1"]`);
-	await element[0].click();
+  element = await page.$x(`//*[@id="checkout_shipping_address_address1"]`);
+  await element[0].click();
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_address1"]`);
-	await element[0].type(user.address);
+  element = await page.$x(`//*[@id="checkout_shipping_address_address1"]`);
+  await element[0].type(user.address);
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_city"]`);
-	await element[0].type(user.city);
+  element = await page.$x(`//*[@id="checkout_shipping_address_city"]`);
+  await element[0].type(user.city);
 
-  await page.type("select#checkout_shipping_address_province", "Tennessee")
+  await page.type("select#checkout_shipping_address_country", "United Kingdom")
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_zip"]`);
-	await element[0].type(user.zip);
+  element = await page.$x(`//*[@id="checkout_shipping_address_zip"]`);
+  await element[0].type(user.zip);
 
-	element = await page.$x(`//*[@id="checkout_shipping_address_phone"]`);
-	await element[0].type(user.phone);
+  element = await page.$x(`//*[@id="checkout_shipping_address_phone"]`);
+  await element[0].type(user.phone);
 
   const response = await pollForRequestResults(apiKey, requestId);
   await page.evaluate(`document.getElementById("g-recaptcha-response").innerHTML="${response}";`);
 
   //finish up shipping info
   element = await page.$x(`//*[@class="btn__content"]`);
-	await element[0].click();
+  await element[0].click();
 
   //confirm shipping page?
   await page.waitForSelector('.step__footer__continue-btn')
@@ -140,7 +141,7 @@ const chromeOptions = {
 
   //paypal obvi
   element = await page.$x(`//img[@alt='PayPal']`);
-	await element[0].click();
+  await element[0].click();
 
   //seeya
   await page.waitForSelector('.edit_checkout > .step__footer > .shown-if-js > .step__footer__continue-btn > .btn__content')
@@ -166,7 +167,7 @@ async function scrollToBottom(page) {
 
 
 //-----captcha business-----
-async function initiateCaptchaRequest(apiKey,currentURL) {
+async function initiateCaptchaRequest(apiKey, currentURL) {
   const formData = {
     method: 'userrecaptcha',
     key: apiKey, // your 2Captcha API Key
@@ -174,7 +175,7 @@ async function initiateCaptchaRequest(apiKey,currentURL) {
     pageurl: currentURL,
     json: 1
   };
-  const response = await request.post('http://2captcha.com/in.php', {form: formData});
+  const response = await request.post('http://2captcha.com/in.php', { form: formData });
   return JSON.parse(response).request;
 }
 
@@ -189,8 +190,8 @@ async function pollForRequestResults(key, id, retries = 30, interval = 1500, del
 
 function requestCaptchaResults(apiKey, requestId) {
   const url = `http://2captcha.com/res.php?key=${apiKey}&action=get&id=${requestId}&json=1`;
-  return async function() {
-    return new Promise(async function(resolve, reject){
+  return async function () {
+    return new Promise(async function (resolve, reject) {
       const rawResponse = await request.get(url);
       const resp = JSON.parse(rawResponse);
       if (resp.status === 0) return reject(resp.request);
